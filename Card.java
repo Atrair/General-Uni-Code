@@ -1,6 +1,8 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
+//import java.util.Arrays;
 
 
 public class Card {
@@ -12,18 +14,37 @@ public class Card {
 		this.range = range;
 		this.firepower = firepower;
 		this.cargo = cargo;
+		
 		}
 	
 	public static void main(String[]args) {
-		Card cardArray[] = new Card[40];
-		cardArray[0] = new Card("350r", 1, 9, 2, 3, 0);
-		System.out.println(cardArray[0]);
+		Card shipArray[] = new Card[40];
+		shipArray[0] = new Card("350r", 1, 9, 2, 3, 0);
+		System.out.println(shipArray[0]);
+		int nShips = 0;
 		
 		
 		FileReader fr = null;
 		try {
-			String fN = "C:\\Users\\atrai\\TeamProject\\Workspace\\MScIT_TeamProject_TemplateProject\\MScIT_TeamProject_TemplateProject/StarCitizenDeck.txt";
-			fr = new FileReader(fN);
+			fr = new FileReader("C:\\Users\\atrai\\TeamProject\\Workspace\\MScIT_TeamProject_TemplateProject\\MScIT_TeamProject_TemplateProject/TopTrumpsCsv.csv");
+
+//			fr = new FileReader("C:\\Users\\atrai\\TeamProject\\Workspace\\MScIT_TeamProject_TemplateProject\\MScIT_TeamProject_TemplateProject/StarCitizenDeck.txt");
+//			String fN = "C:\\Users\\atrai\\TeamProject\\Workspace\\MScIT_TeamProject_TemplateProject\\MScIT_TeamProject_TemplateProject/StarCitizenDeck.txt";
+			Scanner s = new Scanner(fr);
+			while(s.hasNextLine()) {
+				String line = s.nextLine();
+				String[] tokens = line.split(",");
+				String shipName = tokens[0];
+				int shipSize = Integer.parseInt(tokens[1]);
+				int shipSpeed = Integer.parseInt(tokens[2]);
+				int shipRange = Integer.parseInt(tokens[3]);
+				int shipFirepower = Integer.parseInt(tokens[4]);
+				int shipCargo = Integer.parseInt(tokens[5]);
+				shipArray[nShips++] = new Card(shipName, shipSize, shipSpeed, shipRange, shipFirepower, shipCargo);
+				
+				
+			}
+//			fr = new FileReader(fN);
 		
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -33,6 +54,11 @@ public class Card {
 				
 			}catch(IOException e) {
 				e.printStackTrace();
+			}
+		}
+		if(nShips>0) {
+			for(int i=0; i<nShips; i++) {
+				System.out.println(shipArray[i]);
 			}
 		}
 		
